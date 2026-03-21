@@ -178,13 +178,14 @@ import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBPOW6qWT-ch5NGYjqSCSWWJ1fCYLhtJnk",
-  authDomain: "abhishek-portfolio-aa70a.firebaseapp.com",
-  projectId: "abhishek-portfolio-aa70a",
-  storageBucket: "abhishek-portfolio-aa70a.firebasestorage.app",
-  messagingSenderId: "945657549210",
-  appId: "1:945657549210:web:a59033d3c2318614afaa23",
-  measurementId: "G-64K2FRQN11"
+  apiKey: "AIzaSyBZIv7h2m8Uz_Wmx9AuIdi865QRGKo3850",
+  authDomain: "abhishek-3d-portfolio.firebaseapp.com",
+  databaseURL: "https://abhishek-3d-portfolio-default-rtdb.firebaseio.com",
+  projectId: "abhishek-3d-portfolio",
+  storageBucket: "abhishek-3d-portfolio.firebasestorage.app",
+  messagingSenderId: "1046123839172",
+  appId: "1:1046123839172:web:f47460d65c1326ea721391",
+  measurementId: "G-5ZWN8VWQD7"
 };
 
 let app, db, storage;
