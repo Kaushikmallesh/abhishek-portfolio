@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ahishek – Professional 3D Artist specializing in Blender, Cinema 4D, and Autodesk Maya. Explore cyberpunk-inspired 3D art, character design, and environment modeling." />
+  <title>Ahishek | 3D Artist Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== CURSOR ===== -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <!-- ===== NAV ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="brand-bracket">[</span>
+      <span class="brand-text">AHISHEK</span>
+      <span class="brand-bracket">]</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link" data-text="HOME">HOME</a></li>
+      <li><a href="#about" class="nav-link" data-text="ABOUT">ABOUT</a></li>
+      <li><a href="#portfolio" class="nav-link" data-text="WORK">WORK</a></li>
+      <li><a href="#skills" class="nav-link" data-text="SKILLS">SKILLS</a></li>
+      <li><a href="#contact" class="nav-link" data-text="CONTACT">CONTACT</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg" style="background-image: url('assets/hero_bg.png')"></div>
+    <div class="hero-overlay"></div>
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+
+    <div class="hero-content" data-aos="fade-up">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        <span>AVAILABLE FOR WORK</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="glitch" data-text="AHISHEK">AHISHEK</span>
+      </h1>
+      <p class="hero-subtitle">3D ARTIST &nbsp;/&nbsp; DIGITAL SCULPTOR &nbsp;/&nbsp; WORLD BUILDER</p>
+      <p class="hero-desc">Crafting hyperrealistic worlds and futuristic visions through the power of <em>Blender</em>, <em>Cinema 4D</em> &amp; <em>Maya</em></p>
+      <div class="hero-btns">
+        <a href="#portfolio" class="btn btn-primary" id="heroViewWork">
+          <span>VIEW WORK</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-outline" id="heroContact">HIRE ME</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="section-tag">
+        <span class="line"></span>
+        <span>ABOUT ME</span>
+        <span class="line"></span>
+      </div>
+      <h2 class="section-title">The Artist Behind<br /><span class="accent">The Pixels</span></h2>
+
+      <div class="about-grid">
+        <div class="about-visual" data-aos="fade-right">
+          <div class="about-card">
+            <div class="card-glow"></div>
+            <div class="about-stats">
+              <div class="stat">
+                <span class="stat-num" data-target="5">0</span><span>+</span>
+                <span class="stat-label">Years Experience</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num" data-target="120">0</span><span>+</span>
+                <span class="stat-label">Projects Done</span>
+              </div>
+              <div class="stat">
+                <span class="stat-num" data-target="40">0</span><span>+</span>
+                <span class="stat-label">Happy Clients</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-text" data-aos="fade-left">
+          <p class="about-intro">
+            Hi, I'm <span class="accent">Ahishek</span> — a passionate 3D artist obsessed with creating worlds that blur the line between digital and reality.
+          </p>
+          <p>
+            From organic character sculpting in <strong>ZBrush</strong> to cinematic environment design, I bring visions to life using the industry's most powerful tools. My work spans game assets, film VFX, product visualization, and immersive concept art.
+          </p>
+          <p>
+            I specialize in the cyberpunk and sci-fi aesthetic — neon-lit cityscapes, biomechanical creatures, and holographic landscapes are my playground.
+          </p>
+          <div class="tools-list">
+            <div class="tool-chip">
+              <span class="tool-icon">⬡</span> Blender
+            </div>
+            <div class="tool-chip">
+              <span class="tool-icon">⬡</span> Cinema 4D
+            </div>
+            <div class="tool-chip">
+              <span class="tool-icon">⬡</span> Autodesk Maya
+            </div>
+            <div class="tool-chip">
+              <span class="tool-icon">⬡</span> Substance Painter
+            </div>
+            <div class="tool-chip">
+              <span class="tool-icon">⬡</span> ZBrush
+            </div>
+            <div class="tool-chip">
+              <span class="tool-icon">⬡</span> Unreal Engine
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PORTFOLIO ===== -->
+  <section class="portfolio section" id="portfolio">
+    <div class="container">
+      <div class="section-tag">
+        <span class="line"></span>
+        <span>SELECTED WORK</span>
+        <span class="line"></span>
+      </div>
+      <h2 class="section-title">Portfolio <span class="accent">Gallery</span></h2>
+
+      <div class="filter-btns">
+        <button class="filter-btn active" data-filter="all" id="filterAll">ALL</button>
+        <button class="filter-btn" data-filter="environment" id="filterEnv">ENVIRONMENT</button>
+        <button class="filter-btn" data-filter="character" id="filterChar">CHARACTER</button>
+        <button class="filter-btn" data-filter="abstract" id="filterAbs">ABSTRACT</button>
+        <button class="filter-btn" data-filter="product" id="filterProd">PRODUCT VIZ</button>
+      </div>
+
+      <!-- Portfolio items rendered dynamically by script.js from projects.json -->
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== LIGHTBOX ===== -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image Lightbox">
+    <div class="lightbox-bg" id="lightboxBg"></div>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">✕</button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImg" />
+      <div class="lightbox-info">
+        <h3 id="lightboxTitle"></h3>
+        <p id="lightboxDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SKILLS ===== -->
+  <section class="skills section" id="skills">
+    <div class="container">
+      <div class="section-tag">
+        <span class="line"></span>
+        <span>EXPERTISE</span>
+        <span class="line"></span>
+      </div>
+      <h2 class="section-title">Skills &amp; <span class="accent">Toolbox</span></h2>
+
+      <div class="skills-grid">
+        <div class="skill-category" data-aos="fade-up">
+          <h3 class="skill-cat-title">
+            <span class="cat-icon">◈</span> 3D Modeling
+          </h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Blender</span><span class="skill-pct">95%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Cinema 4D</span><span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Autodesk Maya</span><span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>ZBrush</span><span class="skill-pct">80%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="skill-cat-title">
+            <span class="cat-icon">◈</span> Texturing &amp; Rendering
+          </h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Substance Painter</span><span class="skill-pct">90%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Arnold Render</span><span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Redshift</span><span class="skill-pct">82%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="82"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>V-Ray</span><span class="skill-pct">78%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+          <h3 class="skill-cat-title">
+            <span class="cat-icon">◈</span> Animation &amp; FX
+          </h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Character Rigging</span><span class="skill-pct">80%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>VFX Compositing</span><span class="skill-pct">75%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Unreal Engine</span><span class="skill-pct">72%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="72"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span>Houdini</span><span class="skill-pct">65%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <div class="section-tag">
+        <span class="line"></span>
+        <span>CONNECT</span>
+        <span class="line"></span>
+      </div>
+      <h2 class="section-title">Let's Create <span class="accent">Together</span></h2>
+
+      <div class="contact-grid">
+        <div class="contact-info" data-aos="fade-right">
+          <p class="contact-intro">Have a project in mind? I'm open to freelance opportunities, collaborations, and full-time roles.</p>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="ci-icon">📧</div>
+              <div>
+                <span class="ci-label">EMAIL</span>
+                <a href="mailto:ahishek@email.com" class="ci-value" id="contactEmail">ahishek@email.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="ci-icon">🌐</div>
+              <div>
+                <span class="ci-label">ARTSTATION</span>
+                <a href="#" class="ci-value" id="contactArtstation">artstation.com/ahishek</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="ci-icon">📸</div>
+              <div>
+                <span class="ci-label">INSTAGRAM</span>
+                <a href="#" class="ci-value" id="contactInstagram">@ahishek.3d</a>
+              </div>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="#" class="social-btn" id="socialArtstation" aria-label="ArtStation">AS</a>
+            <a href="#" class="social-btn" id="socialBehance" aria-label="Behance">Be</a>
+            <a href="#" class="social-btn" id="socialLinkedin" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-btn" id="socialInstagram" aria-label="Instagram">IG</a>
+          </div>
+        </div>
+
+        <form class="contact-form" id="contactForm" data-aos="fade-left" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="formName">NAME</label>
+              <input type="text" id="formName" name="name" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label for="formEmail">EMAIL</label>
+              <input type="email" id="formEmail" name="email" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="formSubject">SUBJECT</label>
+            <input type="text" id="formSubject" name="subject" placeholder="Project type / inquiry" required />
+          </div>
+          <div class="form-group">
+            <label for="formMessage">MESSAGE</label>
+            <textarea id="formMessage" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="btnSubmit">
+            <span>SEND MESSAGE</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+          <div class="form-success" id="formSuccess">
+            ✓ Message sent! I'll get back to you soon.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-bracket">[</span>
+        <span>AHISHEK</span>
+        <span class="brand-bracket">]</span>
+      </div>
+      <p class="footer-copy">© 2026 Ahishek. All rights reserved. Crafted with ◈ &amp; passion.</p>
+      <p class="footer-tagline">3D Artist | Blender · Cinema 4D · Maya</p>
+    </div>
+  </footer>
+
+  <!-- ===== ADMIN TOOLBAR ===== -->
+  <div class="admin-toolbar" id="adminToolbar" role="toolbar" aria-label="Admin controls" style="display:none">
+    <div class="admin-toolbar-inner">
+      <div class="admin-badge">
+        <span class="admin-dot"></span>
+        <span>ADMIN MODE</span>
+      </div>
+      <button class="admin-btn" id="btnAddProject">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        ADD PROJECT
+      </button>
+      <button class="admin-btn admin-btn-export" id="btnExportJson">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        EXPORT JSON
+      </button>
+      <button class="admin-btn admin-btn-logout" id="btnLogout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        LOGOUT
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN LOGIN MODAL ===== -->
+  <div class="admin-modal" id="adminLoginModal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" style="display:none">
+    <div class="admin-modal-bg" id="loginModalBg"></div>
+    <div class="admin-modal-box login-box">
+      <div class="modal-header">
+        <div class="modal-icon">◈</div>
+        <h2 id="loginModalTitle">ADMIN ACCESS</h2>
+        <p>Enter your credentials to manage the portfolio</p>
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">PASSWORD</label>
+        <div class="password-wrap">
+          <input type="password" id="adminPassword" placeholder="Enter admin password" autocomplete="current-password" />
+          <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password visibility">👁</button>
+        </div>
+      </div>
+      <div class="login-error" id="loginError" style="display:none">⚠ Incorrect password. Try again.</div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btnLoginSubmit">ENTER ADMIN</button>
+        <button class="btn btn-outline" id="btnLoginCancel">CANCEL</button>
+      </div>
+      <p class="login-hint">Tip: Triple-click the footer brand to open this panel next time.</p>
+    </div>
+  </div>
+
+  <!-- ===== PROJECT EDIT / ADD MODAL ===== -->
+  <div class="admin-modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle" style="display:none">
+    <div class="admin-modal-bg" id="projectModalBg"></div>
+    <div class="admin-modal-box project-box">
+      <div class="modal-header">
+        <div class="modal-icon">✎</div>
+        <h2 id="projectModalTitle">ADD PROJECT</h2>
+      </div>
+      <input type="hidden" id="projectEditId" value="" />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectTitle">PROJECT TITLE *</label>
+          <input type="text" id="projectTitle" placeholder="e.g. Cyber Realm" required />
+        </div>
+        <div class="form-group">
+          <label for="projectCategory">CATEGORY *</label>
+          <select id="projectCategory">
+            <option value="environment">Environment</option>
+            <option value="character">Character</option>
+            <option value="abstract">Abstract</option>
+            <option value="product">Product Viz</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="projectTools">TOOLS / SUBTITLE</label>
+        <input type="text" id="projectTools" placeholder="e.g. Blender · Cycles Render" />
+      </div>
+      <div class="form-group">
+        <label for="projectDesc">DESCRIPTION</label>
+        <textarea id="projectDesc" rows="3" placeholder="Describe the project, techniques used, tools..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="projectImage">IMAGE URL or PATH</label>
+        <input type="text" id="projectImage" placeholder="assets/my_render.png or https://..." />
+        <span class="field-hint">Local: put the image file in the <code>assets/</code> folder first. Remote: paste a direct image URL.</span>
+      </div>
+      <div class="img-preview-wrap">
+        <img id="projectImgPreview" src="" alt="Preview" style="display:none" />
+        <span id="previewPlaceholder" class="preview-placeholder">Image preview will appear here</span>
+      </div>
+      <div class="modal-error" id="projectModalError" style="display:none"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btnProjectSave">SAVE PROJECT</button>
+        <button class="btn btn-outline" id="btnProjectCancel">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DELETE CONFIRM MODAL ===== -->
+  <div class="admin-modal" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" style="display:none">
+    <div class="admin-modal-bg" id="deleteModalBg"></div>
+    <div class="admin-modal-box delete-box">
+      <div class="modal-icon delete-icon">⚠</div>
+      <h2 id="deleteModalTitle">DELETE PROJECT?</h2>
+      <p id="deleteModalMsg">This will remove the project from your gallery. You can restore it by re-adding it manually or re-importing a backup JSON.</p>
+      <div class="modal-actions">
+        <button class="btn admin-btn-danger" id="btnDeleteConfirm">YES, DELETE</button>
+        <button class="btn btn-outline" id="btnDeleteCancel">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXPORT SUCCESS TOAST ===== -->
+  <div class="admin-toast" id="adminToast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
