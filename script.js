@@ -12,13 +12,13 @@ let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
 document.addEventListener('mousemove', (e) => {
   mouseX = e.clientX; mouseY = e.clientY;
   cursor.style.left = mouseX + 'px';
-  cursor.style.top  = mouseY + 'px';
+  cursor.style.top = mouseY + 'px';
 });
 function animateCursor() {
   followerX += (mouseX - followerX) * 0.12;
   followerY += (mouseY - followerY) * 0.12;
   cursorFollower.style.left = followerX + 'px';
-  cursorFollower.style.top  = followerY + 'px';
+  cursorFollower.style.top = followerY + 'px';
   requestAnimationFrame(animateCursor);
 }
 animateCursor();
@@ -26,7 +26,7 @@ animateCursor();
 // ============================================================
 // NAVBAR SCROLL + ACTIVE LINKS
 // ============================================================
-const navbar  = document.getElementById('navbar');
+const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('section[id]');
 
@@ -44,14 +44,14 @@ window.addEventListener('scroll', () => {
 // ============================================================
 // HAMBURGER MENU
 // ============================================================
-const hamburger  = document.getElementById('hamburger');
+const hamburger = document.getElementById('hamburger');
 const navLinksEl = document.getElementById('navLinks');
 hamburger.addEventListener('click', () => {
   navLinksEl.classList.toggle('open');
   const spans = hamburger.querySelectorAll('span');
   const isOpen = navLinksEl.classList.contains('open');
   spans[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
-  spans[1].style.opacity   = isOpen ? '0' : '1';
+  spans[1].style.opacity = isOpen ? '0' : '1';
   spans[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
 });
 navLinksEl.querySelectorAll('a').forEach(a => {
@@ -65,7 +65,7 @@ navLinksEl.querySelectorAll('a').forEach(a => {
 // HERO PARTICLE CANVAS
 // ============================================================
 const canvas = document.getElementById('heroCanvas');
-const ctx    = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
@@ -77,7 +77,7 @@ class Particle {
     this.y = Math.random() * canvas.height;
     this.vx = (Math.random() - 0.5) * 0.4;
     this.vy = (Math.random() - 0.5) * 0.4;
-    this.size  = Math.random() * 2 + 0.5;
+    this.size = Math.random() * 2 + 0.5;
     this.alpha = Math.random() * 0.6 + 0.1;
     this.color = Math.random() > 0.5 ? '0,245,255' : '160,32,240';
   }
@@ -177,13 +177,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebas
 import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  // 🔴 PASTE YOUR FIREBASE CONFIG OBJECT HERE 🔴
-  // apiKey: "...",
-  // authDomain: "...",
-  // projectId: "...",
-  // storageBucket: "...",
-  // messagingSenderId: "...",
-  // appId: "..."
+  apiKey: "AIzaSyBPOW6qWT-ch5NGYjqSCSWWJ1fCYLhtJnk",
+  authDomain: "abhishek-portfolio-aa70a.firebaseapp.com",
+  projectId: "abhishek-portfolio-aa70a",
+  storageBucket: "abhishek-portfolio-aa70a.firebasestorage.app",
+  messagingSenderId: "945657549210",
+  appId: "1:945657549210:web:a59033d3c2318614afaa23",
+  measurementId: "G-64K2FRQN11"
 };
 
 let app, db;
@@ -200,7 +200,7 @@ try {
 const CAT_LABELS = { environment: 'ENVIRONMENT', character: 'CHARACTER', abstract: 'ABSTRACT', product: 'PRODUCT VIZ' };
 
 let PROJECTS = [];
-let isAdmin  = false;
+let isAdmin = false;
 let pendingDeleteId = null;
 
 // Load projects: from Firebase Firestore
@@ -214,7 +214,7 @@ async function loadProjects() {
       PROJECTS.push({ id: docSnapshot.id, ...docSnapshot.data() });
     });
     // Sort logic can go here if needed
-  } catch(e) {
+  } catch (e) {
     console.error("Error loading projects from Firebase:", e);
   }
 }
@@ -308,18 +308,18 @@ filterBtns.forEach(btn => {
 // ============================================================
 // LIGHTBOX
 // ============================================================
-const lightbox      = document.getElementById('lightbox');
-const lightboxBg    = document.getElementById('lightboxBg');
+const lightbox = document.getElementById('lightbox');
+const lightboxBg = document.getElementById('lightboxBg');
 const lightboxClose = document.getElementById('lightboxClose');
-const lightboxImg   = document.getElementById('lightboxImg');
+const lightboxImg = document.getElementById('lightboxImg');
 const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxDesc  = document.getElementById('lightboxDesc');
+const lightboxDesc = document.getElementById('lightboxDesc');
 
 function openLightbox(img, title, desc) {
   lightboxImg.src = img;
   lightboxImg.alt = title;
   lightboxTitle.textContent = title;
-  lightboxDesc.textContent  = desc;
+  lightboxDesc.textContent = desc;
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -377,10 +377,10 @@ function showToast(msg, duration = 3000) {
 // ============================================================
 // ADMIN — AUTH
 // ============================================================
-const adminToolbar    = document.getElementById('adminToolbar');
+const adminToolbar = document.getElementById('adminToolbar');
 const adminLoginModal = document.getElementById('adminLoginModal');
-const loginError      = document.getElementById('loginError');
-const adminPwInput    = document.getElementById('adminPassword');
+const loginError = document.getElementById('loginError');
+const adminPwInput = document.getElementById('adminPassword');
 
 function enterAdminMode() {
   isAdmin = true;
@@ -462,17 +462,17 @@ if (sessionStorage.getItem('admin_session') === '1') {
 // ============================================================
 // ADMIN — ADD / EDIT PROJECT MODAL
 // ============================================================
-const projectModal      = document.getElementById('projectModal');
+const projectModal = document.getElementById('projectModal');
 const projectModalTitle = document.getElementById('projectModalTitle');
-const projectEditId     = document.getElementById('projectEditId');
-const projectTitle      = document.getElementById('projectTitle');
-const projectCategory   = document.getElementById('projectCategory');
-const projectTools      = document.getElementById('projectTools');
-const projectDesc       = document.getElementById('projectDesc');
-const projectImage      = document.getElementById('projectImage');
+const projectEditId = document.getElementById('projectEditId');
+const projectTitle = document.getElementById('projectTitle');
+const projectCategory = document.getElementById('projectCategory');
+const projectTools = document.getElementById('projectTools');
+const projectDesc = document.getElementById('projectDesc');
+const projectImage = document.getElementById('projectImage');
 const projectImgPreview = document.getElementById('projectImgPreview');
 const previewPlaceholder = document.getElementById('previewPlaceholder');
-const projectModalError  = document.getElementById('projectModalError');
+const projectModalError = document.getElementById('projectModalError');
 
 function openProjectModal(mode, id = null) {
   projectModalError.style.display = 'none';
@@ -521,11 +521,11 @@ document.getElementById('btnProjectCancel').addEventListener('click', closeProje
 document.getElementById('projectModalBg').addEventListener('click', closeProjectModal);
 
 document.getElementById('btnProjectSave').addEventListener('click', async () => {
-  const title    = projectTitle.value.trim();
+  const title = projectTitle.value.trim();
   const category = projectCategory.value;
-  const tools    = projectTools.value.trim();
-  const desc     = projectDesc.value.trim();
-  const image    = projectImage.value.trim();
+  const tools = projectTools.value.trim();
+  const desc = projectDesc.value.trim();
+  const image = projectImage.value.trim();
 
   if (!title) {
     projectModalError.textContent = '⚠ Project title is required.';
@@ -566,7 +566,7 @@ document.getElementById('btnProjectSave').addEventListener('click', async () => 
     }
     closeProjectModal();
     renderPortfolio(activeFilter);
-  } catch(e) {
+  } catch (e) {
     projectModalError.textContent = '❌ Error saving to database: ' + e.message;
     projectModalError.style.display = 'block';
   } finally {
@@ -592,7 +592,7 @@ function closeDeleteModal() { deleteModal.style.display = 'none'; pendingDeleteI
 
 document.getElementById('btnDeleteConfirm').addEventListener('click', async () => {
   if (pendingDeleteId === null) return;
-  
+
   const btn = document.getElementById('btnDeleteConfirm');
   btn.textContent = "DELETING...";
   btn.disabled = true;
@@ -604,7 +604,7 @@ document.getElementById('btnDeleteConfirm').addEventListener('click', async () =
     closeDeleteModal();
     renderPortfolio(activeFilter);
     showToast('Project deleted.');
-  } catch(e) {
+  } catch (e) {
     showToast('❌ Error deleting: ' + e.message);
   } finally {
     btn.textContent = "YES, DELETE";
