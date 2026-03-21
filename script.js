@@ -171,48 +171,54 @@ const skillsEl = document.querySelector('.skills-grid');
 if (skillsEl) skillsObserver.observe(skillsEl);
 
 // ============================================================
+// FIREBASE CONFIGURATION & INIT
+// ============================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  // 🔴 PASTE YOUR FIREBASE CONFIG OBJECT HERE 🔴
+  // apiKey: "...",
+  // authDomain: "...",
+  // projectId: "...",
+  // storageBucket: "...",
+  // messagingSenderId: "...",
+  // appId: "..."
+};
+
+let app, db;
+try {
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+} catch (e) {
+  console.warn("Firebase config is missing or invalid. Please paste your config at the top of script.js.");
+}
+
+// ============================================================
 // PORTFOLIO — DATA + RENDER
 // ============================================================
-const STORAGE_KEY  = 'ahishek_projects';
-const CAT_LABELS   = { environment: 'ENVIRONMENT', character: 'CHARACTER', abstract: 'ABSTRACT', product: 'PRODUCT VIZ' };
-
-// Default projects embedded as fallback (used when localStorage is empty and fetch fails)
-const DEFAULT_PROJECTS = [
-  { id: 1, title: "Neon Nexus",     category: "environment", tools: "Blender · Cycles Render",   description: "A cyberpunk sci-fi environment rendered in Blender Cycles. Neon lighting, holographic surfaces, and futuristic architecture.", image: "assets/portfolio_1.png" },
-  { id: 2, title: "Ghost Protocol", category: "character",   tools: "Maya · ZBrush · Substance",  description: "A cybernetic soldier sculpted in ZBrush, rigged in Maya, and textured with Substance Painter.",                               image: "assets/portfolio_2.png" },
-  { id: 3, title: "Neo City 2099",  category: "environment", tools: "Cinema 4D · Redshift",       description: "An expansive cyberpunk city rendered with Cinema 4D and Redshift. Rain, neon, and scale were the three design pillars.",       image: "assets/portfolio_3.png" },
-  { id: 4, title: "Phantom Object", category: "product",     tools: "Blender · HDRI Lighting",   description: "A high-end product visualization demonstrating photorealistic material work and studio-quality lighting in Blender.",            image: "assets/portfolio_4.png" },
-  { id: 5, title: "Fractal Void",   category: "abstract",    tools: "Blender · Geometry Nodes",  description: "Procedural abstract art created entirely with Blender's Geometry Nodes, exploring the mathematics of fractals and space.",       image: "assets/portfolio_5.png" },
-  { id: 6, title: "Iron Wraith",    category: "character",   tools: "Maya · Arnold Renderer",    description: "A biomechanical predator modeled and rigged in Autodesk Maya, rendered with Arnold for cinematic quality.",                     image: "assets/portfolio_6.png" }
-];
+const CAT_LABELS = { environment: 'ENVIRONMENT', character: 'CHARACTER', abstract: 'ABSTRACT', product: 'PRODUCT VIZ' };
 
 let PROJECTS = [];
 let isAdmin  = false;
 let pendingDeleteId = null;
 
-// Load projects: localStorage first → fetch projects.json → embedded defaults
+// Load projects: from Firebase Firestore
 async function loadProjects() {
-  // 1. Try localStorage (contains any user edits)
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try { PROJECTS = JSON.parse(saved); return; } catch(e) {}
-  }
-  // 2. Try fetching projects.json (works on server / GitHub Pages, fails on file://)
+  if (!db) return; // Firewall if config is missing
+
   try {
-    const res = await fetch('projects.json');
-    if (res.ok) { PROJECTS = await res.json(); return; }
-  } catch(e) { /* expected on file:// */ }
-  // 3. Fallback: use embedded defaults
-  PROJECTS = JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+    const querySnapshot = await getDocs(collection(db, "projects"));
+    PROJECTS = [];
+    querySnapshot.forEach((docSnapshot) => {
+      PROJECTS.push({ id: docSnapshot.id, ...docSnapshot.data() });
+    });
+    // Sort logic can go here if needed
+  } catch(e) {
+    console.error("Error loading projects from Firebase:", e);
+  }
 }
 
-function saveProjects() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(PROJECTS));
-}
-
-function nextId() {
-  return PROJECTS.length > 0 ? Math.max(...PROJECTS.map(p => p.id)) + 1 : 1;
-}
 
 function renderPortfolio(filter = 'all') {
   const grid = document.getElementById('portfolioGrid');
@@ -264,10 +270,10 @@ function renderPortfolio(filter = 'all') {
   // Admin card buttons
   if (isAdmin) {
     grid.querySelectorAll('.card-edit-btn').forEach(btn => {
-      btn.addEventListener('click', () => openProjectModal('edit', parseInt(btn.dataset.id)));
+      btn.addEventListener('click', () => openProjectModal('edit', btn.dataset.id));
     });
     grid.querySelectorAll('.card-delete-btn').forEach(btn => {
-      btn.addEventListener('click', () => openDeleteModal(parseInt(btn.dataset.id)));
+      btn.addEventListener('click', () => openDeleteModal(btn.dataset.id));
     });
   }
 
@@ -481,7 +487,7 @@ function openProjectModal(mode, id = null) {
     projectImgPreview.style.display = 'none';
     previewPlaceholder.style.display = 'block';
   } else {
-    const proj = PROJECTS.find(p => p.id === id);
+    const proj = PROJECTS.find(p => String(p.id) === String(id));
     if (!proj) return;
     projectModalTitle.textContent = 'EDIT PROJECT';
     projectEditId.value = proj.id;
@@ -514,7 +520,7 @@ document.getElementById('btnAddProject').addEventListener('click', () => openPro
 document.getElementById('btnProjectCancel').addEventListener('click', closeProjectModal);
 document.getElementById('projectModalBg').addEventListener('click', closeProjectModal);
 
-document.getElementById('btnProjectSave').addEventListener('click', () => {
+document.getElementById('btnProjectSave').addEventListener('click', async () => {
   const title    = projectTitle.value.trim();
   const category = projectCategory.value;
   const tools    = projectTools.value.trim();
@@ -536,20 +542,37 @@ document.getElementById('btnProjectSave').addEventListener('click', () => {
   projectModalError.style.display = 'none';
 
   const editId = projectEditId.value;
-  if (editId) {
-    const idx = PROJECTS.findIndex(p => p.id === parseInt(editId));
-    if (idx !== -1) {
-      PROJECTS[idx] = { ...PROJECTS[idx], title, category, tools, description: desc, image };
-    }
-    showToast('✓ Project updated successfully!');
-  } else {
-    PROJECTS.push({ id: nextId(), title, category, tools, description: desc, image });
-    showToast('✓ New project added!');
-  }
 
-  saveProjects();
-  closeProjectModal();
-  renderPortfolio(activeFilter);
+  const btn = document.getElementById('btnProjectSave');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = "SAVING...";
+  btn.disabled = true;
+
+  try {
+    if (editId) {
+      // Edit existing in Firestore
+      const docRef = doc(db, "projects", String(editId));
+      await updateDoc(docRef, { title, category, tools, description: desc, image });
+      const idx = PROJECTS.findIndex(p => String(p.id) === String(editId));
+      if (idx !== -1) {
+        PROJECTS[idx] = { ...PROJECTS[idx], title, category, tools, description: desc, image };
+      }
+      showToast('✓ Project updated successfully!');
+    } else {
+      // Add new to Firestore
+      const docRef = await addDoc(collection(db, "projects"), { title, category, tools, description: desc, image, createdAt: new Date() });
+      PROJECTS.push({ id: docRef.id, title, category, tools, description: desc, image });
+      showToast('✓ New project added!');
+    }
+    closeProjectModal();
+    renderPortfolio(activeFilter);
+  } catch(e) {
+    projectModalError.textContent = '❌ Error saving to database: ' + e.message;
+    projectModalError.style.display = 'block';
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
 });
 
 // ============================================================
@@ -567,32 +590,31 @@ function openDeleteModal(id) {
 }
 function closeDeleteModal() { deleteModal.style.display = 'none'; pendingDeleteId = null; }
 
-document.getElementById('btnDeleteConfirm').addEventListener('click', () => {
+document.getElementById('btnDeleteConfirm').addEventListener('click', async () => {
   if (pendingDeleteId === null) return;
-  PROJECTS = PROJECTS.filter(p => p.id !== pendingDeleteId);
-  saveProjects();
-  closeDeleteModal();
-  renderPortfolio(activeFilter);
-  showToast('Project deleted.');
+  
+  const btn = document.getElementById('btnDeleteConfirm');
+  btn.textContent = "DELETING...";
+  btn.disabled = true;
+
+  try {
+    // Delete from Firestore
+    await deleteDoc(doc(db, "projects", String(pendingDeleteId)));
+    PROJECTS = PROJECTS.filter(p => String(p.id) !== String(pendingDeleteId));
+    closeDeleteModal();
+    renderPortfolio(activeFilter);
+    showToast('Project deleted.');
+  } catch(e) {
+    showToast('❌ Error deleting: ' + e.message);
+  } finally {
+    btn.textContent = "YES, DELETE";
+    btn.disabled = false;
+  }
 });
 document.getElementById('btnDeleteCancel').addEventListener('click', closeDeleteModal);
 document.getElementById('deleteModalBg').addEventListener('click', closeDeleteModal);
 
-// ============================================================
-// ADMIN — EXPORT JSON
-// ============================================================
-document.getElementById('btnExportJson').addEventListener('click', () => {
-  const json = JSON.stringify(PROJECTS, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = 'projects.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('⬇ projects.json downloaded — replace the file in your repo and git push!', 5000);
-});
-
+// Admin functionality end
 // ============================================================
 // INIT
 // ============================================================
