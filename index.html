@@ -443,9 +443,14 @@
         <textarea id="projectDesc" rows="3" placeholder="Describe the project, techniques used, tools..."></textarea>
       </div>
       <div class="form-group">
-        <label for="projectImage">IMAGE URL or PATH</label>
-        <input type="text" id="projectImage" placeholder="assets/my_render.png or https://..." />
-        <span class="field-hint">Local: put the image file in the <code>assets/</code> folder first. Remote: paste a direct image URL.</span>
+        <label for="projectImageFile">UPLOAD IMAGE (NEW!)</label>
+        <input type="file" id="projectImageFile" accept="image/png, image/jpeg, image/webp" />
+        <span class="field-hint">Upload a file directly from your computer (auto-saves to cloud).</span>
+      </div>
+      <div class="form-group">
+        <label for="projectImage">OR EXISTING IMAGE URL</label>
+        <input type="text" id="projectImage" placeholder="https://..." />
+        <span class="field-hint">Leave blank if uploading a new image above.</span>
       </div>
       <div class="img-preview-wrap">
         <img id="projectImgPreview" src="" alt="Preview" style="display:none" />

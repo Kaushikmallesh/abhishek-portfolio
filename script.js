@@ -175,6 +175,7 @@ if (skillsEl) skillsObserver.observe(skillsEl);
 // ============================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPOW6qWT-ch5NGYjqSCSWWJ1fCYLhtJnk",
@@ -186,10 +187,11 @@ const firebaseConfig = {
   measurementId: "G-64K2FRQN11"
 };
 
-let app, db;
+let app, db, storage;
 try {
   app = initializeApp(firebaseConfig);
   db = getFirestore(app);
+  storage = getStorage(app);
 } catch (e) {
   console.warn("Firebase config is missing or invalid. Please paste your config at the top of script.js.");
 }
@@ -470,6 +472,7 @@ const projectCategory = document.getElementById('projectCategory');
 const projectTools = document.getElementById('projectTools');
 const projectDesc = document.getElementById('projectDesc');
 const projectImage = document.getElementById('projectImage');
+const projectImageFile = document.getElementById('projectImageFile');
 const projectImgPreview = document.getElementById('projectImgPreview');
 const previewPlaceholder = document.getElementById('previewPlaceholder');
 const projectModalError = document.getElementById('projectModalError');
@@ -484,6 +487,7 @@ function openProjectModal(mode, id = null) {
     projectTools.value = '';
     projectDesc.value = '';
     projectImage.value = '';
+    projectImageFile.value = '';
     projectImgPreview.style.display = 'none';
     previewPlaceholder.style.display = 'block';
   } else {
@@ -496,6 +500,7 @@ function openProjectModal(mode, id = null) {
     projectTools.value = proj.tools || '';
     projectDesc.value = proj.description || '';
     projectImage.value = proj.image;
+    projectImageFile.value = '';
     updateImgPreview(proj.image);
   }
   projectModal.style.display = 'flex';
@@ -515,6 +520,12 @@ function updateImgPreview(src) {
 }
 
 projectImage.addEventListener('input', () => updateImgPreview(projectImage.value.trim()));
+projectImageFile.addEventListener('change', () => {
+  if (projectImageFile.files[0]) {
+    updateImgPreview(URL.createObjectURL(projectImageFile.files[0]));
+    projectImage.value = ''; // clear text if file selected
+  }
+});
 
 document.getElementById('btnAddProject').addEventListener('click', () => openProjectModal('add'));
 document.getElementById('btnProjectCancel').addEventListener('click', closeProjectModal);
@@ -525,7 +536,8 @@ document.getElementById('btnProjectSave').addEventListener('click', async () => 
   const category = projectCategory.value;
   const tools = projectTools.value.trim();
   const desc = projectDesc.value.trim();
-  const image = projectImage.value.trim();
+  let image = projectImage.value.trim();
+  const file = projectImageFile.files[0];
 
   if (!title) {
     projectModalError.textContent = '⚠ Project title is required.';
@@ -533,10 +545,9 @@ document.getElementById('btnProjectSave').addEventListener('click', async () => 
     projectTitle.focus();
     return;
   }
-  if (!image) {
-    projectModalError.textContent = '⚠ Image URL or path is required.';
+  if (!image && !file) {
+    projectModalError.textContent = '⚠ Image File or URL is required.';
     projectModalError.style.display = 'block';
-    projectImage.focus();
     return;
   }
   projectModalError.style.display = 'none';
@@ -545,10 +556,18 @@ document.getElementById('btnProjectSave').addEventListener('click', async () => 
 
   const btn = document.getElementById('btnProjectSave');
   const originalText = btn.innerHTML;
-  btn.innerHTML = "SAVING...";
+  btn.innerHTML = file ? "UPLOADING IMAGE..." : "SAVING...";
   btn.disabled = true;
 
   try {
+    if (file) {
+      // Upload to Firebase Storage
+      const ext = file.name.split('.').pop() || 'png';
+      const filename = `portfolio_img_${Date.now()}.${ext}`;
+      const storageRef = ref(storage, 'portfolio_images/' + filename);
+      await uploadBytes(storageRef, file);
+      image = await getDownloadURL(storageRef);
+    }
     if (editId) {
       // Edit existing in Firestore
       const docRef = doc(db, "projects", String(editId));
