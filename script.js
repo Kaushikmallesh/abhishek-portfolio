@@ -217,9 +217,19 @@ async function loadProjects() {
       PROJECTS.push({ id: docSnapshot.id, ...docSnapshot.data() });
     });
 
+    // Check for old unsplash images
+    const hasUnsplash = PROJECTS.some(p => p.image && typeof p.image === 'string' && p.image.includes('unsplash'));
+
     // Auto-create initial data if database collection ("table") is empty 
     // This allows the table structure to be automatically created on first load
-    if (PROJECTS.length === 0) {
+    if (PROJECTS.length === 0 || hasUnsplash) {
+      if (hasUnsplash) {
+        console.log("Removing old stock photos from Firebase...");
+        for (const p of PROJECTS) {
+          try { await deleteDoc(doc(db, "projects", String(p.id))); } catch(e) {}
+        }
+        PROJECTS = []; // wipe local state
+      }
       console.log("Database table is empty. Auto-creating initial mock projects to initialize database...");
       const mockProjects = [
         {
