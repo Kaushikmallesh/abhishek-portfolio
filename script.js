@@ -1,7 +1,7 @@
 // ============================================================
 // ADMIN PASSWORD — change this to something only you know
 // ============================================================
-const ADMIN_PASSWORD = 'ahishek@admin';
+const ADMIN_PASSWORD = 'abhishek@admin';
 
 // ============================================================
 // CURSOR
@@ -175,7 +175,7 @@ if (skillsEl) skillsObserver.observe(skillsEl);
 // ============================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+// Firebase Storage import removed for Base64 workaround
 
 const firebaseConfig = {
   apiKey: "AIzaSyBZIv7h2m8Uz_Wmx9AuIdi865QRGKo3850",
@@ -188,11 +188,11 @@ const firebaseConfig = {
   measurementId: "G-5ZWN8VWQD7"
 };
 
-let app, db, storage;
+let app, db;
 try {
   app = initializeApp(firebaseConfig);
   db = getFirestore(app);
-  storage = getStorage(app);
+  // storage = getStorage(app); // disabled to bypass storage
 } catch (e) {
   console.warn("Firebase config is missing or invalid. Please paste your config at the top of script.js.");
 }
@@ -216,7 +216,49 @@ async function loadProjects() {
     querySnapshot.forEach((docSnapshot) => {
       PROJECTS.push({ id: docSnapshot.id, ...docSnapshot.data() });
     });
-    // Sort logic can go here if needed
+
+    // Auto-create initial data if database collection ("table") is empty 
+    // This allows the table structure to be automatically created on first load
+    if (PROJECTS.length === 0) {
+      console.log("Database table is empty. Auto-creating initial mock projects to initialize database...");
+      const mockProjects = [
+        {
+          title: "Neon Cyber City",
+          category: "environment",
+          tools: "Blender · Cycles",
+          description: "A dark cyberpunk environment layout with rain effects and neon signs.",
+          image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          title: "Mech Warrior Beta",
+          category: "character",
+          tools: "ZBrush · Substance Painter",
+          description: "High-poly mechanical warrior character design.",
+          image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          title: "Holographic Artifact",
+          category: "abstract",
+          tools: "Cinema 4D · Redshift",
+          description: "Abstract representation of a futuristic data storage artifact.",
+          image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+        }
+      ];
+
+      for (const p of mockProjects) {
+        const pWithDate = { ...p, createdAt: new Date() };
+        const docRef = await addDoc(collection(db, "projects"), pWithDate);
+        PROJECTS.push({ id: docRef.id, ...pWithDate });
+      }
+      console.log("Auto-creation of table and initial data complete.");
+    }
+
+    // Sort logic: newest first
+    PROJECTS.sort((a, b) => {
+      const timeA = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+      const timeB = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+      return timeB - timeA;
+    });
   } catch (e) {
     console.error("Error loading projects from Firebase:", e);
   }
@@ -562,12 +604,37 @@ document.getElementById('btnProjectSave').addEventListener('click', async () => 
 
   try {
     if (file) {
-      // Upload to Firebase Storage
-      const ext = file.name.split('.').pop() || 'png';
-      const filename = `portfolio_img_${Date.now()}.${ext}`;
-      const storageRef = ref(storage, 'portfolio_images/' + filename);
-      await uploadBytes(storageRef, file);
-      image = await getDownloadURL(storageRef);
+      // WORKAROUND: Compress image to Base64 to store directly in Firestore
+      // Bypasses the need for Firebase Storage rules or setup
+      image = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200; // Limit width so we don't hit the 1MB Firestore doc limit
+            let width = img.width;
+            let height = img.height;
+
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Output compressed JPEG base64 string
+            resolve(canvas.toDataURL('image/jpeg', 0.75));
+          };
+          img.onerror = reject;
+        };
+        reader.onerror = reject;
+      });
     }
     if (editId) {
       // Edit existing in Firestore
