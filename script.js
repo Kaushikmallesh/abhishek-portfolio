@@ -227,21 +227,42 @@ async function loadProjects() {
           category: "environment",
           tools: "Blender · Cycles",
           description: "A dark cyberpunk environment layout with rain effects and neon signs.",
-          image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop"
+          image: "assets/portfolio_1.png"
         },
         {
           title: "Mech Warrior Beta",
           category: "character",
           tools: "ZBrush · Substance Painter",
           description: "High-poly mechanical warrior character design.",
-          image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=800&auto=format&fit=crop"
+          image: "assets/portfolio_2.png"
         },
         {
           title: "Holographic Artifact",
           category: "abstract",
           tools: "Cinema 4D · Redshift",
           description: "Abstract representation of a futuristic data storage artifact.",
-          image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+          image: "assets/portfolio_3.png"
+        },
+        {
+          title: "Sci-Fi Energy Core",
+          category: "product",
+          tools: "Maya · V-Ray",
+          description: "Concept visualization for a next-gen energy core.",
+          image: "assets/portfolio_4.png"
+        },
+        {
+          title: "Alien Biosphere",
+          category: "environment",
+          tools: "Blender · Houdini",
+          description: "Procedurally generated alien vegetation.",
+          image: "assets/portfolio_5.png"
+        },
+        {
+          title: "Cyborg Operative",
+          category: "character",
+          tools: "ZBrush · Unreal Engine",
+          description: "Real-time character model optimized for games.",
+          image: "assets/portfolio_6.png"
         }
       ];
 
